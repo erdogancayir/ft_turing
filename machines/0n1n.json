@@ -1,0 +1,61 @@
+{
+    "name": "0n1n",
+    "alphabet": ["0", "1", "X", "Y", "y", "n", "."],
+    "blank": ".",
+    "states": ["start", "find_1", "back", "check_rest", "answer_y_go_left", "answer_y_restore", "answer_n_go_left", "answer_n_restore", "HALT"],
+    "initial": "start",
+    "finals": ["HALT"],
+    "transitions": {
+        "start": [
+            {"read": "0", "to_state": "find_1", "write": "X", "action": "RIGHT"},
+            {"read": "Y", "to_state": "check_rest", "write": "Y", "action": "RIGHT"},
+            {"read": "1", "to_state": "answer_n_go_left", "write": "1", "action": "LEFT"},
+            {"read": ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
+        ],
+        "find_1": [
+            {"read": "0", "to_state": "find_1", "write": "0", "action": "RIGHT"},
+            {"read": "Y", "to_state": "find_1", "write": "Y", "action": "RIGHT"},
+            {"read": "1", "to_state": "back", "write": "Y", "action": "LEFT"},
+            {"read": ".", "to_state": "answer_n_go_left", "write": ".", "action": "LEFT"}
+        ],
+        "back": [
+            {"read": "0", "to_state": "back", "write": "0", "action": "LEFT"},
+            {"read": "Y", "to_state": "back", "write": "Y", "action": "LEFT"},
+            {"read": "X", "to_state": "start", "write": "X", "action": "RIGHT"}
+        ],
+        "check_rest": [
+            {"read": "Y", "to_state": "check_rest", "write": "Y", "action": "RIGHT"},
+            {"read": ".", "to_state": "answer_y_go_left", "write": ".", "action": "LEFT"},
+            {"read": "0", "to_state": "answer_n_go_left", "write": "0", "action": "LEFT"},
+            {"read": "1", "to_state": "answer_n_go_left", "write": "1", "action": "LEFT"}
+        ],
+        "answer_y_go_left": [
+            {"read": "0", "to_state": "answer_y_go_left", "write": "0", "action": "LEFT"},
+            {"read": "1", "to_state": "answer_y_go_left", "write": "1", "action": "LEFT"},
+            {"read": "X", "to_state": "answer_y_go_left", "write": "X", "action": "LEFT"},
+            {"read": "Y", "to_state": "answer_y_go_left", "write": "Y", "action": "LEFT"},
+            {"read": ".", "to_state": "answer_y_restore", "write": ".", "action": "RIGHT"}
+        ],
+        "answer_y_restore": [
+            {"read": "0", "to_state": "answer_y_restore", "write": "0", "action": "RIGHT"},
+            {"read": "1", "to_state": "answer_y_restore", "write": "1", "action": "RIGHT"},
+            {"read": "X", "to_state": "answer_y_restore", "write": "0", "action": "RIGHT"},
+            {"read": "Y", "to_state": "answer_y_restore", "write": "1", "action": "RIGHT"},
+            {"read": ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
+        ],
+        "answer_n_go_left": [
+            {"read": "0", "to_state": "answer_n_go_left", "write": "0", "action": "LEFT"},
+            {"read": "1", "to_state": "answer_n_go_left", "write": "1", "action": "LEFT"},
+            {"read": "X", "to_state": "answer_n_go_left", "write": "X", "action": "LEFT"},
+            {"read": "Y", "to_state": "answer_n_go_left", "write": "Y", "action": "LEFT"},
+            {"read": ".", "to_state": "answer_n_restore", "write": ".", "action": "RIGHT"}
+        ],
+        "answer_n_restore": [
+            {"read": "0", "to_state": "answer_n_restore", "write": "0", "action": "RIGHT"},
+            {"read": "1", "to_state": "answer_n_restore", "write": "1", "action": "RIGHT"},
+            {"read": "X", "to_state": "answer_n_restore", "write": "0", "action": "RIGHT"},
+            {"read": "Y", "to_state": "answer_n_restore", "write": "1", "action": "RIGHT"},
+            {"read": ".", "to_state": "HALT", "write": "n", "action": "RIGHT"}
+        ]
+    }
+}

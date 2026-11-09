@@ -1,0 +1,75 @@
+{
+    "name": "palindrome",
+    "alphabet": ["0", "1", "A", "B", "y", "n", "."],
+    "blank": ".",
+    "states": ["pick", "seek_end_0", "check_0", "seek_end_1", "check_1", "back", "answer_y_go_left", "answer_y_restore", "answer_n_go_left", "answer_n_restore", "HALT"],
+    "initial": "pick",
+    "finals": ["HALT"],
+    "transitions": {
+        "pick": [
+            {"read": "0", "to_state": "seek_end_0", "write": "A", "action": "RIGHT"},
+            {"read": "1", "to_state": "seek_end_1", "write": "B", "action": "RIGHT"},
+            {"read": "A", "to_state": "answer_y_go_left", "write": "A", "action": "LEFT"},
+            {"read": "B", "to_state": "answer_y_go_left", "write": "B", "action": "LEFT"},
+            {"read": ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
+        ],
+        "seek_end_0": [
+            {"read": "0", "to_state": "seek_end_0", "write": "0", "action": "RIGHT"},
+            {"read": "1", "to_state": "seek_end_0", "write": "1", "action": "RIGHT"},
+            {"read": "A", "to_state": "check_0", "write": "A", "action": "LEFT"},
+            {"read": "B", "to_state": "check_0", "write": "B", "action": "LEFT"},
+            {"read": ".", "to_state": "check_0", "write": ".", "action": "LEFT"}
+        ],
+        "check_0": [
+            {"read": "0", "to_state": "back", "write": "A", "action": "LEFT"},
+            {"read": "1", "to_state": "answer_n_go_left", "write": "1", "action": "LEFT"},
+            {"read": "A", "to_state": "answer_y_go_left", "write": "A", "action": "LEFT"}
+        ],
+        "seek_end_1": [
+            {"read": "0", "to_state": "seek_end_1", "write": "0", "action": "RIGHT"},
+            {"read": "1", "to_state": "seek_end_1", "write": "1", "action": "RIGHT"},
+            {"read": "A", "to_state": "check_1", "write": "A", "action": "LEFT"},
+            {"read": "B", "to_state": "check_1", "write": "B", "action": "LEFT"},
+            {"read": ".", "to_state": "check_1", "write": ".", "action": "LEFT"}
+        ],
+        "check_1": [
+            {"read": "1", "to_state": "back", "write": "B", "action": "LEFT"},
+            {"read": "0", "to_state": "answer_n_go_left", "write": "0", "action": "LEFT"},
+            {"read": "B", "to_state": "answer_y_go_left", "write": "B", "action": "LEFT"}
+        ],
+        "back": [
+            {"read": "0", "to_state": "back", "write": "0", "action": "LEFT"},
+            {"read": "1", "to_state": "back", "write": "1", "action": "LEFT"},
+            {"read": "A", "to_state": "pick", "write": "A", "action": "RIGHT"},
+            {"read": "B", "to_state": "pick", "write": "B", "action": "RIGHT"}
+        ],
+        "answer_y_go_left": [
+            {"read": "0", "to_state": "answer_y_go_left", "write": "0", "action": "LEFT"},
+            {"read": "1", "to_state": "answer_y_go_left", "write": "1", "action": "LEFT"},
+            {"read": "A", "to_state": "answer_y_go_left", "write": "A", "action": "LEFT"},
+            {"read": "B", "to_state": "answer_y_go_left", "write": "B", "action": "LEFT"},
+            {"read": ".", "to_state": "answer_y_restore", "write": ".", "action": "RIGHT"}
+        ],
+        "answer_y_restore": [
+            {"read": "0", "to_state": "answer_y_restore", "write": "0", "action": "RIGHT"},
+            {"read": "1", "to_state": "answer_y_restore", "write": "1", "action": "RIGHT"},
+            {"read": "A", "to_state": "answer_y_restore", "write": "0", "action": "RIGHT"},
+            {"read": "B", "to_state": "answer_y_restore", "write": "1", "action": "RIGHT"},
+            {"read": ".", "to_state": "HALT", "write": "y", "action": "RIGHT"}
+        ],
+        "answer_n_go_left": [
+            {"read": "0", "to_state": "answer_n_go_left", "write": "0", "action": "LEFT"},
+            {"read": "1", "to_state": "answer_n_go_left", "write": "1", "action": "LEFT"},
+            {"read": "A", "to_state": "answer_n_go_left", "write": "A", "action": "LEFT"},
+            {"read": "B", "to_state": "answer_n_go_left", "write": "B", "action": "LEFT"},
+            {"read": ".", "to_state": "answer_n_restore", "write": ".", "action": "RIGHT"}
+        ],
+        "answer_n_restore": [
+            {"read": "0", "to_state": "answer_n_restore", "write": "0", "action": "RIGHT"},
+            {"read": "1", "to_state": "answer_n_restore", "write": "1", "action": "RIGHT"},
+            {"read": "A", "to_state": "answer_n_restore", "write": "0", "action": "RIGHT"},
+            {"read": "B", "to_state": "answer_n_restore", "write": "1", "action": "RIGHT"},
+            {"read": ".", "to_state": "HALT", "write": "n", "action": "RIGHT"}
+        ]
+    }
+}
