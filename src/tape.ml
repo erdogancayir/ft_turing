@@ -25,11 +25,11 @@ let move tape (dir : Types.direction) =
 (* Minimum number of cells displayed, the rest is padded with blanks *)
 let min_width = 20
 
+(* Only tail recursive functions (List.rev, sequences): no stack overflow on long tapes *)
 let to_string tape =
-  let cell c = String.make 1 c in
-  let left = List.rev_map cell tape.left in
-  let right = List.map cell tape.right in
-  let used = List.length left + 1 + List.length right in
+  let cells l = String.of_seq (List.to_seq l) in
+  let left = cells (List.rev tape.left) in
+  let right = cells tape.right in
+  let used = String.length left + 1 + String.length right in
   let padding = String.make (max 0 (min_width - used)) tape.blank in
-  "[" ^ String.concat "" left ^ "<" ^ cell tape.head ^ ">"
-  ^ String.concat "" right ^ padding ^ "]"
+  "[" ^ left ^ "<" ^ String.make 1 tape.head ^ ">" ^ right ^ padding ^ "]"

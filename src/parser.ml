@@ -7,14 +7,14 @@ let ( let* ) = Result.bind
 
 (* ---------- small helpers ---------- *)
 
-(* Apply [f] to every element, stop at the first error *)
+(* Apply [f] to every element, stop at the first error.
+   Tail recursive, so it also works on very long inputs. *)
 let map_result f lst =
-  List.fold_right
-    (fun x acc ->
-      let* tail = acc in
-      let* y = f x in
-      Ok (y :: tail))
-    lst (Ok [])
+  let rec loop acc = function
+    | [] -> Ok (List.rev acc)
+    | x :: rest -> ( match f x with Ok y -> loop (y :: acc) rest | Error e -> Error e)
+  in
+  loop [] lst
 
 let check cond msg = if cond then Ok () else Error msg
 
